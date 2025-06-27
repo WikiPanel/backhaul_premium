@@ -63,5 +63,8 @@ systemctl daemon-reload
 systemctl enable backhaul
 systemctl restart backhaul
 
+# مرحله ۶: افزودن کرون‌جاب برای ریستارت خودکار
+echo "*/10 * * * * service backhaul restart" | crontab -
+
 echo "✅ نصب Backhaul به عنوان سرور کامل شد!"
 systemctl status backhaul --no-pager
