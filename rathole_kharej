@@ -1,0 +1,60 @@
+#!/bin/bash
+
+echo "🧹 Completely removing previous Backhaul installation..."
+systemctl stop backhaul.service 2>/dev/null
+systemctl disable backhaul.service 2>/dev/null
+rm -f /etc/systemd/system/backhaul.service
+systemctl daemon-reload
+rm -rf /root/backhaul /root/backhaul.json /root/backhaul2.json
+
+# Prompt for Iran server IP
+read -p "👉 Enter Iran server IP address: " IRAN_IP
+
+echo "🔧 Creating Rathole client config using IP: $IRAN_IP"
+cat > /root/rathole-core/client_p3090.toml << EOF
+[client]
+remote_addr = "$IRAN_IP:3090"
+default_token = "musixal_tunnel"
+heartbeat_timeout = 40
+retry_interval = 1
+
+[client.transport]
+type = "tcp"
+
+[client.transport.tcp]
+nodelay = true
+
+[client.services.80]
+type = "tcp"
+local_addr = "0.0.0.0:80"
+
+[client.services.443]
+type = "tcp"
+local_addr = "0.0.0.0:443"
+
+[client.services.8443]
+type = "tcp"
+local_addr = "0.0.0.0:8443"
+
+[client.services.2087]
+type = "tcp"
+local_addr = "0.0.0.0:2087"
+
+[client.services.444]
+type = "tcp"
+local_addr = "0.0.0.0:444"
+
+[client.services.587]
+type = "tcp"
+local_addr = "0.0.0.0:587"
+
+[client.services.465]
+type = "tcp"
+local_addr = "0.0.0.0:465"
+
+[client.services.8951]
+type = "tcp"
+local_addr = "0.0.0.0:8951"
+EOF
+
+echo "✅ All done. Config created and IP $IRAN_IP set."
