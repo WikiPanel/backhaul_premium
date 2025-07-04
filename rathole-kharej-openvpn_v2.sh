@@ -28,4 +28,4 @@ systemctl restart rathole-kharej3090.service
 
 # بررسی وضعیت
 echo "📋 وضعیت سرویس:"
-systemctl status rathole-kharej.service --no-pager
+systemctl status rathole-kharej3090.service --no-pager
